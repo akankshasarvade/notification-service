@@ -1,0 +1,141 @@
+## Notification Service (Email + Queue Simulation)
+
+A Notification Service built with Node.js, Express, and MongoDB.  
+It allows creating, storing, updating, deleting, and sending notifications.  
+Includes a imulated queue system and email sending via Nodemailer.
+
+
+
+# 🚀Features
+
+- Store notifications in MongoDB  
+- Create, view, update, and delete notifications  
+- Queue simulation: notifications are processed after a delay  
+- Email sending support (via Nodemailer – SMTP credentials required)  
+- Filter notifications by status (pending, sent, failed)  
+- REST API routes to manage notifications  
+
+
+# 🛠️Setup & Installation
+
+1️ Clone the repository:
+
+git clone https://github.com/your-username/notification-service.git
+cd notification-service
+
+2 Install dependencies:
+ npm install
+
+
+3️ Create a .env file in the root folder:
+PORT=3000
+MONGO_URI=mongodb://localhost:27017/notificationDB
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your-email@gmail.com
+SMTP_PASS=your-app-password
+
+4️ Start the server:
+npm run dev
+
+Production
+npm start
+
+5️ Success Message:
+Server running on port 3000
+MongoDB Connected...
+
+#API Routes
+1️ Create a Notification
+POST /notifications
+Body:json
+
+{
+  "recipient": "user@example.com",
+  "subject": "Test Notification",
+  "message": "Hello from Notification Service",
+  "channel": "email"
+}
+
+
+2️ Get All Notifications
+Response:
+
+[
+  {
+    "_id": "68b04fb22f6f8cd97edde8a2",
+    "recipient": "user@example.com",
+    "subject": "Test Notification",
+    "message": "Hello from Notification Service",
+    "channel": "email",
+    "status": "pending"
+  }
+]
+ Filter by status
+ GET /notifications?status=pending
+
+
+3️ Get Notification by ID
+GET /notifications/:id
+Response:
+
+{
+  "_id": "68b04fb22f6f8cd97edde8a2",
+  "recipient": "user@example.com",
+  "subject": "Test Notification",
+  "message": "Hello from Notification Service",
+  "channel": "email",
+  "status": "sent"
+}
+
+
+4️ Update a Notification
+PUT /notifications/:id
+Body:
+
+{
+  "message": "Updated message content"
+}
+
+
+5️  Delete a Notification
+DELETE /notifications/:id
+Response:
+
+{
+  "message": "Deleted successfully"
+}
+
+
+6️ Send Notification Immediately
+POST /notifications/:id/send
+Response:
+
+{
+  "message": "Notification queued for immediate sending"
+}
+
+
+7️ Get Current Queue
+GET /queue
+Response:
+
+{
+  "queue": ["68b04fb22f6f8cd97edde8a2"]
+}
+
+
+# Tech Stack:
+
+Node.js + Express.js
+MongoDB + Mongoose
+Nodemailer for email sending
+Thunder Client  for API testing
+
+IMPORTANT:
+
+Queue processes every 5 seconds
+10% chance of random failure (to simulate real-world errors)
+Notifications can only be updated/deleted before they’re processed
+
+
